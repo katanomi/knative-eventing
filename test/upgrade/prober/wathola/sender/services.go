@@ -147,6 +147,11 @@ func RegisterEventSenderWithContext(es EventSenderWithContext) {
 	eventSendersWithContext = append(eventSendersWithContext, es)
 }
 
+// RegisterEventSenderWithContext will register EventSenderWithContext to be used.
+func RegisterEventSenderWithContext(es EventSenderWithContext) {
+	eventSendersWithContext = append(eventSendersWithContext, es)
+}
+
 // SendEvent will send cloud event to given url
 func SendEvent(ctx context.Context, ce cloudevents.Event, endpoint interface{}) error {
 	sendersWithCtx := make([]EventSenderWithContext, 0, len(eventSendersWithContext)+1)

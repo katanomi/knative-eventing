@@ -39,3 +39,10 @@ type EventSenderWithContext interface {
 	// SendEventWithContext will send event to the given endpoint and pass context.
 	SendEventWithContext(ctx context.Context, ce cloudevents.Event, endpoint interface{}) error
 }
+
+// EventSenderWithContext will be used to send events to configured endpoint, passing a context.
+type EventSenderWithContext interface {
+	EndpointSupporter
+	// SendEventWithContext will send event to the given endpoint and pass context.
+	SendEventWithContext(ctx context.Context, ce cloudevents.Event, endpoint interface{}) error
+}
