@@ -27,7 +27,6 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/leaderelection"
 	"k8s.io/client-go/tools/leaderelection/resourcelock"
-
 	"knative.dev/pkg/hash"
 	"knative.dev/pkg/logging"
 	"knative.dev/pkg/network"
@@ -78,12 +77,6 @@ func HasLeaderElection(ctx context.Context) bool {
 // Elector is the interface for running a leader elector.
 type Elector interface {
 	Run(context.Context)
-}
-
-// ElectorWithInitialBuckets is an optional interface for electors to
-// supply an initial set of buckets
-type ElectorWithInitialBuckets interface {
-	InitialBuckets() []reconciler.Bucket
 }
 
 // BuildElector builds a leaderelection.LeaderElector for the named LeaderAware
@@ -199,11 +192,7 @@ func newStandardBuckets(queueName string, cc ComponentConfig) []reconciler.Bucke
 }
 
 func standardBucketName(ordinal uint32, queueName string, cc ComponentConfig) string {
-	prefix := fmt.Sprintf("%s.%s", cc.Component, queueName)
-	if v, ok := cc.LeaseNamesPrefixMapping[prefix]; ok && len(v) > 0 {
-		prefix = v
-	}
-	return strings.ToLower(fmt.Sprintf("%s.%02d-of-%02d", prefix, ordinal, cc.Buckets))
+	return strings.ToLower(fmt.Sprintf("%s.%s.%02d-of-%02d", cc.Component, queueName, ordinal, cc.Buckets))
 }
 
 type statefulSetBuilder struct {
@@ -261,20 +250,9 @@ type unopposedElector struct {
 	enq func(reconciler.Bucket, types.NamespacedName)
 }
 
-var (
-	_ Elector                   = (*unopposedElector)(nil)
-	_ ElectorWithInitialBuckets = (*unopposedElector)(nil)
-)
-
 // Run implements Elector
 func (ue *unopposedElector) Run(ctx context.Context) {
 	ue.la.Promote(ue.bkt, ue.enq)
-}
-
-func (ue *unopposedElector) InitialBuckets() []reconciler.Bucket {
-	return []reconciler.Bucket{
-		ue.bkt,
-	}
 }
 
 type runAll struct {

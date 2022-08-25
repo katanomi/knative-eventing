@@ -22,7 +22,6 @@ import (
 
 	apix "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	apixclient "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset"
-	apierrs "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -94,7 +93,7 @@ func (m *Migrator) migrateResources(ctx context.Context, gvr schema.GroupVersion
 		_, err := client.Namespace(item.GetNamespace()).
 			Patch(ctx, item.GetName(), types.MergePatchType, []byte("{}"), metav1.PatchOptions{})
 
-		if err != nil && !apierrs.IsNotFound(err) {
+		if err != nil {
 			return fmt.Errorf("unable to patch resource %s/%s (gvr: %s) - %w",
 				item.GetNamespace(), item.GetName(),
 				gvr, err)

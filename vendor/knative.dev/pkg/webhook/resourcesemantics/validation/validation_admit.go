@@ -60,7 +60,7 @@ func NewCallback(function func(context.Context, *unstructured.Unstructured) erro
 var _ webhook.AdmissionController = (*reconciler)(nil)
 
 // Admit implements AdmissionController
-func (ac *reconciler) Admit(ctx context.Context, request *admissionv1.AdmissionRequest) (resp *admissionv1.AdmissionResponse) {
+func (ac *reconciler) Admit(ctx context.Context, request *admissionv1.AdmissionRequest) *admissionv1.AdmissionResponse {
 	if ac.withContext != nil {
 		ctx = ac.withContext(ctx)
 	}
@@ -77,19 +77,8 @@ func (ac *reconciler) Admit(ctx context.Context, request *admissionv1.AdmissionR
 		return webhook.MakeErrorStatus("decoding request failed: %v", err)
 	}
 
-	errors, warnings := validate(ctx, resource, request)
-	if warnings != nil {
-		// If there were warnings, then keep processing things, but augment
-		// whatever AdmissionResponse we send with the warnings.  We cannot
-		// simply set `resp.Warnings` directly here because the return paths
-		// below all overwrite `resp`, but the `defer` affords us one final
-		// crack at things.
-		defer func() {
-			resp.Warnings = []string{warnings.Error()}
-		}()
-	}
-	if errors != nil {
-		return webhook.MakeErrorStatus("validation failed: %v", errors)
+	if err := validate(ctx, resource, request); err != nil {
+		return webhook.MakeErrorStatus("validation failed: %v", err)
 	}
 
 	if err := ac.callback(ctx, request, gvk); err != nil {
@@ -158,7 +147,7 @@ func (ac *reconciler) decodeRequestAndPrepareContext(
 	return ctx, newObj, nil
 }
 
-func validate(ctx context.Context, resource resourcesemantics.GenericCRD, req *admissionv1.AdmissionRequest) (err error, warn error) {
+func validate(ctx context.Context, resource resourcesemantics.GenericCRD, req *admissionv1.AdmissionRequest) error {
 	logger := logging.FromContext(ctx)
 
 	// Only run validation for supported create and update validation.
@@ -166,32 +155,25 @@ func validate(ctx context.Context, resource resourcesemantics.GenericCRD, req *a
 	case admissionv1.Create, admissionv1.Update:
 		// Supported verbs
 	case admissionv1.Delete:
-		return nil, nil // Validation handled by optional Callback, but not validatable.
+		return nil // Validation handled by optional Callback, but not validatable.
 	default:
 		logger.Info("Unhandled webhook validation operation, letting it through ", req.Operation)
-		return nil, nil
+		return nil
 	}
 
 	// None of the validators will accept a nil value for newObj.
 	if resource == nil {
-		return errMissingNewObject, nil
+		return errMissingNewObject
 	}
 
-	if result := resource.Validate(ctx); result != nil {
+	if err := resource.Validate(ctx); err != nil {
 		logger.Errorw("Failed the resource specific validation", zap.Error(err))
-		// While we have the strong typing of apis.FieldError, partition the
-		// returned error into the error-level diagnostics and warning-level
-		// diagnostics, so that the admission response can embed things into
-		// the appropriate portions of the response.
-		// This is expanded like to to avoid problems with typed nils.
-		if errorResult := result.Filter(apis.ErrorLevel); errorResult != nil {
-			err = errorResult
-		}
-		if warningResult := result.Filter(apis.WarningLevel); warningResult != nil {
-			warn = warningResult
-		}
+		// Return the error message as-is to give the validation callback
+		// discretion over (our portion of) the message that the user sees.
+		return err
 	}
-	return err, warn
+
+	return nil
 }
 
 // callback runs optional callbacks on admission

@@ -21,6 +21,7 @@ import (
 	// _ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 
 	"knative.dev/pkg/injection/sharedmain"
+	"knative.dev/pkg/metrics"
 
 	"knative.dev/eventing/pkg/reconciler/broker"
 	mttrigger "knative.dev/eventing/pkg/reconciler/broker/trigger"
@@ -31,6 +32,9 @@ const (
 )
 
 func main() {
+	// sets up liveness and readiness probes.
+	metrics.ListenHealth()
+
 	sharedmain.Main(
 		component,
 

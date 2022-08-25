@@ -25,6 +25,7 @@ import (
 	"os"
 
 	"knative.dev/pkg/injection/sharedmain"
+	"knative.dev/pkg/metrics"
 
 	"knative.dev/eventing/pkg/reconciler/apiserversource"
 	"knative.dev/eventing/pkg/reconciler/channel"
@@ -41,22 +42,7 @@ import (
 
 func main() {
 	// sets up liveness and readiness probes.
-	mux := http.NewServeMux()
-
-	mux.HandleFunc("/", handler)
-	mux.HandleFunc("/health", handler)
-	mux.HandleFunc("/readiness", handler)
-
-	port := os.Getenv("PROBES_PORT")
-	if port == "" {
-		port = "8080"
-	}
-
-	go func() {
-		// start the web server on port and accept requests
-		log.Printf("Readiness and health check server listening on port %s", port)
-		log.Fatal(http.ListenAndServe(":"+port, mux))
-	}()
+	metrics.ListenHealth()
 
 	sharedmain.Main("controller",
 		// Messaging
