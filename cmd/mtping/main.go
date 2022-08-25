@@ -17,6 +17,10 @@ limitations under the License.
 package main
 
 import (
+	"log"
+	"net/http"
+	"os"
+
 	"knative.dev/pkg/signals"
 
 	"knative.dev/eventing/pkg/adapter/mtping"
@@ -29,6 +33,23 @@ const (
 )
 
 func main() {
+	// sets up liveness and readiness probes.
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/health", handler)
+	mux.HandleFunc("/readiness", handler)
+
+	port := os.Getenv("PROBES_PORT")
+	if port == "" {
+		port = "8081"
+	}
+
+	go func() {
+		// start the web server on port and accept requests
+		log.Printf("Readiness and health check server listening on port %s", port)
+		log.Fatal(http.ListenAndServe(":"+port, mux))
+	}()
+
 	sctx := signals.NewContext()
 
 	// When cancelling the adapter to close to the minute, there is
@@ -55,4 +76,8 @@ func main() {
 	})
 
 	adapter.MainWithContext(ctx, component, mtping.NewEnvConfig, mtping.NewAdapter)
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
 }
