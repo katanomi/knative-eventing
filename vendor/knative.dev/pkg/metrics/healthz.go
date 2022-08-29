@@ -1,5 +1,5 @@
 /*
-Copyright 2020 The Knative Authors
+Copyright 2019 The Knative Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,32 +14,34 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package main
+package metrics
 
 import (
-	// Uncomment the following line to load the gcp plugin (only required to authenticate against GKE clusters).
-	// _ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
-
-	"knative.dev/pkg/injection/sharedmain"
-	"knative.dev/pkg/metrics"
-
-	"knative.dev/eventing/pkg/reconciler/broker"
-	mttrigger "knative.dev/eventing/pkg/reconciler/broker/trigger"
+	"log"
+	"net/http"
+	"os"
 )
 
-const (
-	component = "mt-broker-controller"
-)
-
-func main() {
+func ListenHealth() {
 	// sets up liveness and readiness probes.
-	metrics.ListenHealth()
+	mux := http.NewServeMux()
 
-	sharedmain.Main(
-		component,
+	mux.HandleFunc("/", handler)
+	mux.HandleFunc("/health", handler)
+	mux.HandleFunc("/readiness", handler)
 
-		broker.NewController,
+	port := os.Getenv("PROBES_PORT")
+	if port == "" {
+		port = "8080"
+	}
 
-		mttrigger.NewController,
-	)
+	go func() {
+		// start the web server on port and accept requests
+		log.Printf("Readiness and health check server listening on port %s", port)
+		log.Fatal(http.ListenAndServe(":"+port, mux))
+	}()
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
 }

@@ -20,11 +20,8 @@ import (
 	// Uncomment the following line to load the gcp plugin (only required to authenticate against GKE clusters).
 	// _ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 
-	"log"
-	"net/http"
-	"os"
-
 	"knative.dev/pkg/injection/sharedmain"
+	"knative.dev/pkg/metrics"
 
 	"knative.dev/eventing/pkg/reconciler/apiserversource"
 	"knative.dev/eventing/pkg/reconciler/channel"
@@ -39,21 +36,7 @@ import (
 
 func main() {
 	// sets up liveness and readiness probes.
-	mux := http.NewServeMux()
-
-	mux.HandleFunc("/health", handler)
-	mux.HandleFunc("/readiness", handler)
-
-	port := os.Getenv("PROBES_PORT")
-	if port == "" {
-		port = "8081"
-	}
-
-	go func() {
-		// start the web server on port and accept requests
-		log.Printf("Readiness and health check server listening on port %s", port)
-		log.Fatal(http.ListenAndServe(":"+port, mux))
-	}()
+	metrics.ListenHealth()
 
 	sharedmain.Main("controller",
 		// Messaging
@@ -74,8 +57,4 @@ func main() {
 		// Sources CRD
 		sourcecrd.NewController,
 	)
-}
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
 }
