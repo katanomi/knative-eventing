@@ -29,7 +29,7 @@ spec:
         - name: import-path
           value: "./cmd/mtchannel_broker"
         - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/mtchannel-broker"
+          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/mtchannel_broker"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
     ## ko publish controller image
@@ -46,7 +46,7 @@ spec:
         - name: import-path
           value: "./cmd/controller"
         - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/controller"
+          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/controller"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
     ## ko publish mtping image
@@ -63,7 +63,7 @@ spec:
         - name: import-path
           value: "./cmd/mtping"
         - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/mtping"
+          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/mtping"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
     ## ko publish sugar_controller image
@@ -80,6 +80,6 @@ spec:
         - name: import-path
           value: "./cmd/sugar_controller"
         - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/sugar-controller"
+          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/sugar_controller"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
