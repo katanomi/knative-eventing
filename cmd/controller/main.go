@@ -21,6 +21,7 @@ import (
 	// _ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 
 	"knative.dev/pkg/injection/sharedmain"
+	"knative.dev/pkg/metrics"
 
 	"knative.dev/eventing/pkg/reconciler/apiserversource"
 	"knative.dev/eventing/pkg/reconciler/channel"
@@ -34,6 +35,9 @@ import (
 )
 
 func main() {
+	// sets up liveness and readiness probes.
+	metrics.ListenHealth()
+
 	sharedmain.Main("controller",
 		// Messaging
 		channel.NewController,

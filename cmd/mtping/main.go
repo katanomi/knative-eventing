@@ -17,6 +17,7 @@ limitations under the License.
 package main
 
 import (
+	"knative.dev/pkg/metrics"
 	"knative.dev/pkg/signals"
 
 	"knative.dev/eventing/pkg/adapter/mtping"
@@ -28,6 +29,9 @@ const (
 )
 
 func main() {
+	// sets up liveness and readiness probes.
+	metrics.ListenHealth()
+
 	sctx := signals.NewContext()
 
 	// When cancelling the adapter to close to the minute, there is

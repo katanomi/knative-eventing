@@ -23,11 +23,15 @@ import (
 	"knative.dev/eventing/pkg/reconciler/sugar/namespace"
 	"knative.dev/eventing/pkg/reconciler/sugar/trigger"
 	"knative.dev/pkg/injection/sharedmain"
+	"knative.dev/pkg/metrics"
 )
 
 // Sugar Controller watches resources with magic labels/annotations and reacts.
 
 func main() {
+	// sets up liveness and readiness probes.
+	metrics.ListenHealth()
+
 	sharedmain.Main("sugar-controller",
 		// Namespaces
 		namespace.NewController,
