@@ -15,6 +15,115 @@ spec:
       workspaces:
       - name: source
         workspace: source
+
+    ## ko publish apiserver_receive_adapter image
+    - name: build-apiserver-receive-adapter
+      taskRef:
+        kind: ClusterTask
+        name: alauda-ko-build
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: verbose
+          value: "false"
+        - name: import-path
+          value: "./cmd/apiserver_receive_adapter"
+        - name: container-image
+          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/apiserver_receive_adapter"
+        - name: container-image-tag
+          value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+
+    ## ko publish broker/filter image
+    - name: build-broker-filter
+      taskRef:
+        kind: ClusterTask
+        name: alauda-ko-build
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: verbose
+          value: "false"
+        - name: import-path
+          value: "./cmd/broker/filter"
+        - name: container-image
+          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/broker/filter"
+        - name: container-image-tag
+          value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+
+    ## ko publish broker/ingress image
+    - name: build-broker-ingress
+      taskRef:
+        kind: ClusterTask
+        name: alauda-ko-build
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: verbose
+          value: "false"
+        - name: import-path
+          value: "./cmd/broker/ingress"
+        - name: container-image
+          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/broker/ingress"
+        - name: container-image-tag
+          value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+
+    ## ko publish cmt/controller image
+    - name: build-cmd-controller
+      taskRef:
+        kind: ClusterTask
+        name: alauda-ko-build
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: verbose
+          value: "false"
+        - name: import-path
+          value: "./cmd/controller"
+        - name: container-image
+          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/controller"
+        - name: container-image-tag
+          value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+
+    ## ko publish channel_controller image
+    - name: build-in-memory-channel-controller
+      taskRef:
+        kind: ClusterTask
+        name: alauda-ko-build
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: verbose
+          value: "false"
+        - name: import-path
+          value: "./cmd/in_memory/channel_controller"
+        - name: container-image
+          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/in_memory/channel_controller"
+        - name: container-image-tag
+          value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+
+    ## ko publish channel_dispatcher image
+    - name: build-in-memory-channel-dispatcher
+      taskRef:
+        kind: ClusterTask
+        name: alauda-ko-build
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: verbose
+          value: "false"
+        - name: import-path
+          value: "./cmd/in_memory/channel_dispatcher"
+        - name: container-image
+          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/in_memory/channel_dispatcher"
+        - name: container-image-tag
+          value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+
     ## ko publish mtchannel_broker image
     - name: build-mtchannel-broker
       taskRef:
@@ -32,23 +141,7 @@ spec:
           value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/mtchannel_broker"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
-    ## ko publish controller image
-    - name: build-controller
-      taskRef:
-        kind: ClusterTask
-        name: alauda-ko-build
-      workspaces:
-        - name: source
-          workspace: source
-      params:
-        - name: verbose
-          value: "false"
-        - name: import-path
-          value: "./cmd/controller"
-        - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/controller"
-        - name: container-image-tag
-          value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+
     ## ko publish mtping image
     - name: build-mtping
       taskRef:
@@ -66,6 +159,7 @@ spec:
           value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/mtping"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+
     ## ko publish sugar_controller image
     - name: build-sugar-controller
       taskRef:
@@ -83,3 +177,22 @@ spec:
           value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/sugar_controller"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+
+    ## ko publish webhook image
+    - name: build-webhook
+      taskRef:
+        kind: ClusterTask
+        name: alauda-ko-build
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: verbose
+          value: "false"
+        - name: import-path
+          value: "./cmd/webhook"
+        - name: container-image
+          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/webhook"
+        - name: container-image-tag
+          value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+
