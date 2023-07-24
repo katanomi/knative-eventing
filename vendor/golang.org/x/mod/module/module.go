@@ -103,7 +103,6 @@ import (
 	"strings"
 	"unicode"
 	"unicode/utf8"
-	"errors"
 
 	"golang.org/x/mod/semver"
 )

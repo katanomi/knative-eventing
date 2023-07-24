@@ -112,9 +112,6 @@ func (d readerFromDelegator) ReadFrom(re io.Reader) (int64, error) {
 	d.written += n
 	return n, err
 }
-func (d pusherDelegator) Push(target string, opts *http.PushOptions) error {
-	return d.ResponseWriter.(http.Pusher).Push(target, opts)
-}
 
 func (d pusherDelegator) Push(target string, opts *http.PushOptions) error {
 	return d.ResponseWriter.(http.Pusher).Push(target, opts)

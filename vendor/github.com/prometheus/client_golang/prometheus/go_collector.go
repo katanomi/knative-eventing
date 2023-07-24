@@ -16,7 +16,6 @@ package prometheus
 import (
 	"runtime"
 	"runtime/debug"
-	"sync"
 	"time"
 )
 
@@ -279,26 +278,4 @@ type memStatsMetrics []struct {
 	desc    *Desc
 	eval    func(*runtime.MemStats) float64
 	valType ValueType
-}
-
-// NewBuildInfoCollector is the obsolete version of collectors.NewBuildInfoCollector.
-// See there for documentation.
-//
-// Deprecated: Use collectors.NewBuildInfoCollector instead.
-func NewBuildInfoCollector() Collector {
-	path, version, sum := "unknown", "unknown", "unknown"
-	if bi, ok := debug.ReadBuildInfo(); ok {
-		path = bi.Main.Path
-		version = bi.Main.Version
-		sum = bi.Main.Sum
-	}
-	c := &selfCollector{MustNewConstMetric(
-		NewDesc(
-			"go_build_info",
-			"Build information about the main Go module.",
-			nil, Labels{"path": path, "version": version, "checksum": sum},
-		),
-		GaugeValue, 1)}
-	c.init(c.self)
-	return c
 }

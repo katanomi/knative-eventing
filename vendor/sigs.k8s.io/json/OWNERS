@@ -1,8 +1,6 @@
 # See the OWNERS docs at https://go.k8s.io/owners
 
 approvers:
-- cjcullen
-- jlowdermilk
-reviewers:
-- cjcullen
-- jlowdermilk
+  - deads2k
+  - lavalamp
+  - liggitt

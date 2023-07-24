@@ -36,7 +36,3 @@ func withInformer(ctx context.Context) (context.Context, controller.Informer) {
 	inf := f.Core().V1().Secrets()
 	return context.WithValue(ctx, secret.Key{}, inf), inf.Informer()
 }
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-}
