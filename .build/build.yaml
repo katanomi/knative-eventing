@@ -141,6 +141,8 @@ spec:
           value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/mtchannel_broker"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go:1.19-buster-e293a86f
 
     ## ko publish mtping image
     - name: build-mtping
@@ -159,24 +161,9 @@ spec:
           value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/mtping"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go:1.19-buster-e293a86f
 
-    ## ko publish sugar_controller image
-    - name: build-sugar-controller
-      taskRef:
-        kind: ClusterTask
-        name: alauda-ko-build
-      workspaces:
-        - name: source
-          workspace: source
-      params:
-        - name: verbose
-          value: "false"
-        - name: import-path
-          value: "./cmd/sugar_controller"
-        - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/sugar_controller"
-        - name: container-image-tag
-          value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
 
     ## ko publish webhook image
     - name: build-webhook
