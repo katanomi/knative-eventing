@@ -1178,7 +1178,7 @@ knative.dev/hack/schema/commands
 knative.dev/hack/schema/docs
 knative.dev/hack/schema/registry
 knative.dev/hack/schema/schema
-# knative.dev/pkg v0.0.0-20230718152110-aef227e72ead => github.com/katanomi/knative-pkg v0.0.0-20230724095014-6835a82718d5
+# knative.dev/pkg v0.0.0-20230718152110-aef227e72ead => github.com/katanomi/knative-pkg v0.0.0-20230724132110-b2ccec81629f
 ## explicit; go 1.18
 knative.dev/pkg/apiextensions/storageversion
 knative.dev/pkg/apiextensions/storageversion/cmd/migrate
@@ -1363,4 +1363,4 @@ sigs.k8s.io/structured-merge-diff/v4/value
 sigs.k8s.io/yaml
 # github.com/dgrijalva/jwt-go => github.com/form3tech-oss/jwt-go v0.0.0-20210511163231-5b2d2b5f6c34
 # github.com/miekg/dns v1.0.14 => github.com/miekg/dns v1.1.25
-# knative.dev/pkg => github.com/katanomi/knative-pkg v0.0.0-20230724095014-6835a82718d5
+# knative.dev/pkg => github.com/katanomi/knative-pkg v0.0.0-20230724132110-b2ccec81629f

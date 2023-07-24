@@ -139,5 +139,5 @@ require (
 replace (
 	github.com/dgrijalva/jwt-go => github.com/form3tech-oss/jwt-go v0.0.0-20210511163231-5b2d2b5f6c34
 	github.com/miekg/dns v1.0.14 => github.com/miekg/dns v1.1.25
-	knative.dev/pkg => github.com/katanomi/knative-pkg v0.0.0-20230724095014-6835a82718d5
+	knative.dev/pkg => github.com/katanomi/knative-pkg v0.0.0-20230724132110-b2ccec81629f
 )
