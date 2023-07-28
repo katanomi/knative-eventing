@@ -440,7 +440,7 @@ go.uber.org/zap/internal/exit
 go.uber.org/zap/internal/ztest
 go.uber.org/zap/zapcore
 go.uber.org/zap/zaptest
-# golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
+# golang.org/x/crypto v0.0.0-20220214200702-86341886e292
 ## explicit; go 1.17
 golang.org/x/crypto/cast5
 golang.org/x/crypto/openpgp
@@ -1207,8 +1207,8 @@ knative.dev/hack/schema/commands
 knative.dev/hack/schema/docs
 knative.dev/hack/schema/registry
 knative.dev/hack/schema/schema
-# knative.dev/pkg v0.0.0-20220524202603-19adf798efb8 => github.com/katanomi/knative-pkg v0.0.0-20220829075743-4c0fdb10a3eb
-## explicit; go 1.14
+# knative.dev/pkg v0.0.0-20220524202603-19adf798efb8 => github.com/katanomi/knative-pkg v0.0.0-20230727141333-f9080a371f46
+## explicit; go 1.17
 knative.dev/pkg/apiextensions/storageversion
 knative.dev/pkg/apiextensions/storageversion/cmd/migrate
 knative.dev/pkg/apis
@@ -1377,4 +1377,4 @@ sigs.k8s.io/structured-merge-diff/v4/value
 sigs.k8s.io/yaml
 # github.com/dgrijalva/jwt-go => github.com/form3tech-oss/jwt-go v0.0.0-20210511163231-5b2d2b5f6c34
 # github.com/miekg/dns v1.0.14 => github.com/miekg/dns v1.1.25
-# knative.dev/pkg => github.com/katanomi/knative-pkg v0.0.0-20220829075743-4c0fdb10a3eb
+# knative.dev/pkg => github.com/katanomi/knative-pkg v0.0.0-20230727141333-f9080a371f46

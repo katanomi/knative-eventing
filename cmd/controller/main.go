@@ -20,10 +20,6 @@ import (
 	// Uncomment the following line to load the gcp plugin (only required to authenticate against GKE clusters).
 	// _ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 
-	"log"
-	"net/http"
-	"os"
-
 	"knative.dev/pkg/injection/sharedmain"
 	"knative.dev/pkg/metrics"
 
@@ -67,8 +63,4 @@ func main() {
 		sugarnamespace.NewController,
 		sugartrigger.NewController,
 	)
-}
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
 }

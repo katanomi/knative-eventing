@@ -110,7 +110,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	go.uber.org/automaxprocs v1.4.0 // indirect
-	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
+	golang.org/x/crypto v0.0.0-20220214200702-86341886e292 // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
 	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8 // indirect
@@ -139,5 +139,5 @@ require (
 replace (
 	github.com/dgrijalva/jwt-go => github.com/form3tech-oss/jwt-go v0.0.0-20210511163231-5b2d2b5f6c34
 	github.com/miekg/dns v1.0.14 => github.com/miekg/dns v1.1.25
-	knative.dev/pkg => github.com/katanomi/knative-pkg v0.0.0-20220829075743-4c0fdb10a3eb
+	knative.dev/pkg => github.com/katanomi/knative-pkg v0.0.0-20230727141333-f9080a371f46
 )
