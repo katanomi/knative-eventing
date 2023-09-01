@@ -21,6 +21,7 @@ import (
 
 	"knative.dev/eventing/pkg/adapter/mtping"
 	"knative.dev/eventing/pkg/adapter/v2"
+	"knative.dev/pkg/metrics"
 )
 
 const (
@@ -29,6 +30,9 @@ const (
 )
 
 func main() {
+	// sets up liveness and readiness probes.
+	metrics.ListenHealth()
+
 	sctx := signals.NewContext()
 
 	// When cancelling the adapter to close to the minute, there is
