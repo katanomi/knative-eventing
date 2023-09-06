@@ -26,6 +26,7 @@ import (
 
 	"knative.dev/eventing/pkg/reconciler/broker"
 	mttrigger "knative.dev/eventing/pkg/reconciler/broker/trigger"
+	"knative.dev/pkg/metrics"
 )
 
 const (
@@ -33,6 +34,9 @@ const (
 )
 
 func main() {
+	// sets up liveness and readiness probes.
+	metrics.ListenHealth()
+
 	sharedmain.Main(
 		component,
 
