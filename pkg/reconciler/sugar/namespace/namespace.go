@@ -57,6 +57,7 @@ func (r *Reconciler) ReconcileKind(ctx context.Context, ns *corev1.Namespace) pk
 	selector, err := metav1.LabelSelectorAsSelector(cfg.NamespaceSelector)
 	logger.Infow("Reconciling namespace", "namespace", ns.Name, "selector", selector)
 	if err != nil {
+		logger.Errorw("Invalid label selector for namespaces", "namespace", ns.Name, "selector", selector)
 		return fmt.Errorf("invalid label selector for namespaces: %w", err)
 	}
 	if !selector.Matches(kubelabels.Set(ns.ObjectMeta.Labels)) {
