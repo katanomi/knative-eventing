@@ -55,12 +55,14 @@ func (r *Reconciler) ReconcileKind(ctx context.Context, ns *corev1.Namespace) pk
 	logger.Infow("Reconciling namespace", "namespace", ns.Name)
 
 	selector, err := metav1.LabelSelectorAsSelector(cfg.NamespaceSelector)
-	logger.Infow("Reconciling namespace", "namespace", ns.Name, "selector", selector)
+	logger.Infow("Reconciling namespace", "namespace", ns.Name, "selector", selector, "cfg", cfg)
 	if err != nil {
 		logger.Errorw("Invalid label selector for namespaces", "namespace", ns.Name, "selector", selector)
 		return fmt.Errorf("invalid label selector for namespaces: %w", err)
 	}
 	if !selector.Matches(kubelabels.Set(ns.ObjectMeta.Labels)) {
+		setResult := kubelabels.Set(ns.ObjectMeta.Labels)
+		logger.Infow("Namespace does not match label selector", "namespace", ns.Name, "selector", selector, "ns.labels", ns.ObjectMeta.Labels, "set.result", setResult)
 		logging.FromContext(ctx).Infof("Sugar Controller disabled for Namespace:%s in configmap 'config-sugar'", ns.Name)
 		return nil
 	} else {
