@@ -51,27 +51,33 @@ var _ namespacereconciler.Interface = (*Reconciler)(nil)
 
 func (r *Reconciler) ReconcileKind(ctx context.Context, ns *corev1.Namespace) pkgreconciler.Event {
 	cfg := sugarconfig.FromContext(ctx)
+	logger := logging.FromContext(ctx).Named("sugar-namespace-reconciler")
+	logger.Infow("Reconciling namespace", "namespace", ns.Name)
 
 	selector, err := metav1.LabelSelectorAsSelector(cfg.NamespaceSelector)
+	logger.Infow("Reconciling namespace", "namespace", ns.Name, "selector", selector)
 	if err != nil {
 		return fmt.Errorf("invalid label selector for namespaces: %w", err)
 	}
 	if !selector.Matches(kubelabels.Set(ns.ObjectMeta.Labels)) {
-		logging.FromContext(ctx).Debugf("Sugar Controller disabled for Namespace:%s in configmap 'config-sugar'", ns.Name)
+		logging.FromContext(ctx).Infof("Sugar Controller disabled for Namespace:%s in configmap 'config-sugar'", ns.Name)
 		return nil
 	} else {
-		logging.FromContext(ctx).Debugf("Sugar Controller enabled for Namespace:%s in configmap 'config-sugar'", ns.Name)
+		logging.FromContext(ctx).Infof("Sugar Controller enabled for Namespace:%s in configmap 'config-sugar'", ns.Name)
 	}
 
 	_, err = r.brokerLister.Brokers(ns.Name).Get(resources.DefaultBrokerName)
 
 	// If the resource doesn't exist, we'll create it.
 	if k8serrors.IsNotFound(err) {
+		logger.Errorw("Namespace does not have a default Broker", "namespace", ns.Name)
 		_, err = r.eventingClientSet.EventingV1().Brokers(ns.Name).Create(
 			ctx, resources.MakeBroker(ns.Name, resources.DefaultBrokerName), metav1.CreateOptions{})
 		if err != nil {
+			logger.Errorw("Unable to create Broker", "namespace", ns.Name)
 			return fmt.Errorf("unable to create Broker: %w", err)
 		}
+		logger.Infow("Default Broker created", "namespace", ns.Name)
 		// we want the event created in the namespace, and while ns is a cluster
 		// wide object, if don't do this we'll end with the event created
 		// in the default namespace, which is a bad UX in our case.
@@ -79,8 +85,9 @@ func (r *Reconciler) ReconcileKind(ctx context.Context, ns *corev1.Namespace) pk
 		return pkgreconciler.NewEvent(corev1.EventTypeNormal, brokerCreated,
 			"Default eventing.knative.dev Broker created.")
 	} else if err != nil {
+		logger.Errorw("Unable to list Brokers", "namespace", ns.Name)
 		return fmt.Errorf("Unable to list Brokers: %w", err)
 	}
-
+	logger.Infow("Namespace already has a default Broker", "namespace", ns.Name)
 	return nil
 }
