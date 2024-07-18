@@ -33,6 +33,8 @@ spec:
           value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/apiserver_receive_adapter"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
 
     ## ko publish broker/filter image
     - name: build-broker-filter
@@ -51,6 +53,8 @@ spec:
           value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/broker/filter"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
 
     ## ko publish broker/ingress image
     - name: build-broker-ingress
@@ -69,6 +73,8 @@ spec:
           value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/broker/ingress"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
 
     ## ko publish cmt/controller image
     - name: build-cmd-controller
@@ -88,7 +94,7 @@ spec:
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:1.19-buster-e293a86f
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
 
     ## ko publish channel_controller image
     - name: build-in-memory-channel-controller
@@ -107,6 +113,8 @@ spec:
           value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/in_memory/channel_controller"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
 
     ## ko publish channel_dispatcher image
     - name: build-in-memory-channel-dispatcher
@@ -125,6 +133,8 @@ spec:
           value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/in_memory/channel_dispatcher"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
 
     ## ko publish mtchannel_broker image
     - name: build-mtchannel-broker
@@ -144,7 +154,7 @@ spec:
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:1.19-buster-e293a86f
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
 
     ## ko publish mtping image
     - name: build-mtping
@@ -164,7 +174,7 @@ spec:
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:1.19-buster-e293a86f
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
 
 
     ## ko publish webhook image
@@ -184,6 +194,8 @@ spec:
           value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/webhook"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
 
     ## ko publish cmt/controller image
     - name: build-migrate
@@ -202,4 +214,6 @@ spec:
           value: "build-harbor.alauda.cn/devops/knative.dev/eventing/vendor/knative.dev/pkg/apiextensions/storageversion/cmd/migrate"
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
 
