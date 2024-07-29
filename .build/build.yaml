@@ -2,21 +2,18 @@ kind: Build
 apiVersion: builds.katanomi.dev/v1alpha1
 spec:
   workspaces:
-  - name: source
+    - name: source
   tasks:
-    ## read oss version
     - name: oss-version
       taskRef:
         kind: ClusterTask
         name: alauda-read-oss-version
       params:
-      - name: version-file-path
-        value: ".build/opensource-version"
+        - name: version-file-path
+          value: .build/opensource-version
       workspaces:
-      - name: source
-        workspace: source
-
-    ## ko publish apiserver_receive_adapter image
+        - name: source
+          workspace: source
     - name: build-apiserver-receive-adapter
       taskRef:
         kind: ClusterTask
@@ -24,17 +21,19 @@ spec:
       workspaces:
         - name: source
           workspace: source
+        - name: cache
+      timeout: 0m
+      retries: 0
+      when: []
       params:
-        - name: verbose
-          value: "false"
         - name: import-path
-          value: "./cmd/apiserver_receive_adapter"
+          value: ./cmd/apiserver_receive_adapter
         - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/apiserver_receive_adapter"
+          value: build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/apiserver_receive_adapter
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
-
-    ## ko publish broker/filter image
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
     - name: build-broker-filter
       taskRef:
         kind: ClusterTask
@@ -46,13 +45,13 @@ spec:
         - name: verbose
           value: "false"
         - name: import-path
-          value: "./cmd/broker/filter"
+          value: ./cmd/broker/filter
         - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/broker/filter"
+          value: build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/broker/filter
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
-
-    ## ko publish broker/ingress image
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
     - name: build-broker-ingress
       taskRef:
         kind: ClusterTask
@@ -64,13 +63,13 @@ spec:
         - name: verbose
           value: "false"
         - name: import-path
-          value: "./cmd/broker/ingress"
+          value: ./cmd/broker/ingress
         - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/broker/ingress"
+          value: build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/broker/ingress
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
-
-    ## ko publish cmt/controller image
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
     - name: build-cmd-controller
       taskRef:
         kind: ClusterTask
@@ -82,15 +81,13 @@ spec:
         - name: verbose
           value: "false"
         - name: import-path
-          value: "./cmd/controller"
+          value: ./cmd/controller
         - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/controller"
+          value: build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/controller
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:1.19-buster-e293a86f
-
-    ## ko publish channel_controller image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
     - name: build-in-memory-channel-controller
       taskRef:
         kind: ClusterTask
@@ -102,13 +99,13 @@ spec:
         - name: verbose
           value: "false"
         - name: import-path
-          value: "./cmd/in_memory/channel_controller"
+          value: ./cmd/in_memory/channel_controller
         - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/in_memory/channel_controller"
+          value: build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/in_memory/channel_controller
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
-
-    ## ko publish channel_dispatcher image
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
     - name: build-in-memory-channel-dispatcher
       taskRef:
         kind: ClusterTask
@@ -120,13 +117,13 @@ spec:
         - name: verbose
           value: "false"
         - name: import-path
-          value: "./cmd/in_memory/channel_dispatcher"
+          value: ./cmd/in_memory/channel_dispatcher
         - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/in_memory/channel_dispatcher"
+          value: build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/in_memory/channel_dispatcher
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
-
-    ## ko publish mtchannel_broker image
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
     - name: build-mtchannel-broker
       taskRef:
         kind: ClusterTask
@@ -134,19 +131,19 @@ spec:
       workspaces:
         - name: source
           workspace: source
+        - name: cache
+      timeout: 0m
+      retries: 0
+      when: []
       params:
-        - name: verbose
-          value: "false"
         - name: import-path
-          value: "./cmd/mtchannel_broker"
+          value: ./cmd/mtchannel_broker
         - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/mtchannel_broker"
+          value: build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/mtchannel_broker
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:1.19-buster-e293a86f
-
-    ## ko publish mtping image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
     - name: build-mtping
       taskRef:
         kind: ClusterTask
@@ -158,16 +155,13 @@ spec:
         - name: verbose
           value: "false"
         - name: import-path
-          value: "./cmd/mtping"
+          value: ./cmd/mtping
         - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/mtping"
+          value: build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/mtping
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:1.19-buster-e293a86f
-
-
-    ## ko publish webhook image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
     - name: build-webhook
       taskRef:
         kind: ClusterTask
@@ -179,13 +173,13 @@ spec:
         - name: verbose
           value: "false"
         - name: import-path
-          value: "./cmd/webhook"
+          value: ./cmd/webhook
         - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/webhook"
+          value: build-harbor.alauda.cn/devops/knative.dev/eventing/cmd/webhook
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
-
-    ## ko publish cmt/controller image
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
     - name: build-migrate
       taskRef:
         kind: ClusterTask
@@ -193,13 +187,115 @@ spec:
       workspaces:
         - name: source
           workspace: source
+        - name: cache
+      timeout: 0m
+      retries: 0
+      when: []
       params:
-        - name: verbose
-          value: "false"
         - name: import-path
-          value: "vendor/knative.dev/pkg/apiextensions/storageversion/cmd/migrate/main.go"
+          value: vendor/knative.dev/pkg/apiextensions/storageversion/cmd/migrate/main.go
         - name: container-image
-          value: "build-harbor.alauda.cn/devops/knative.dev/eventing/vendor/knative.dev/pkg/apiextensions/storageversion/cmd/migrate"
+          value: build-harbor.alauda.cn/devops/knative.dev/eventing/vendor/knative.dev/pkg/apiextensions/storageversion/cmd/migrate
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
-
+        - name: tool-image
+          value: registry.alauda.cn:60080/devops/builder-go-121:latest
+    - name: image-scan
+      timeout: 30m
+      retries: 0
+      taskRef:
+        resolver: katanomi.hub
+        params:
+          - name: kind
+            value: task
+          - name: name
+            value: trivy-image-scan
+      workspaces:
+        - name: source
+          workspace: source
+        - name: cache
+      runAfter:
+        - build-apiserver-receive-adapter
+        - build-broker-filter
+        - build-broker-ingress
+      when: []
+      params:
+        - name: targets
+          value:
+            - $(tasks.build-apiserver-receive-adapter.results.ociContainerImageBuild-url)
+            - $(tasks.build-broker-filter.results.ociContainerImageBuild-url)
+            - $(tasks.build-broker-ingress.results.ociContainerImageBuild-url)
+    - name: image-scan2
+      timeout: 30m
+      retries: 0
+      taskRef:
+        resolver: katanomi.hub
+        params:
+          - name: kind
+            value: task
+          - name: name
+            value: trivy-image-scan
+      workspaces:
+        - name: source
+          workspace: source
+        - name: cache
+      runAfter:
+        - build-cmd-controller
+        - build-in-memory-channel-controller
+        - build-in-memory-channel-dispatcher
+      when: []
+      params:
+        - name: targets
+          value:
+            - $(tasks.build-cmd-controller.results.ociContainerImageBuild-url)
+            - $(tasks.build-in-memory-channel-controller.results.ociContainerImageBuild-url)
+            - $(tasks.build-in-memory-channel-dispatcher.results.ociContainerImageBuild-url)
+    - name: image-scan3
+      timeout: 30m
+      retries: 0
+      taskRef:
+        resolver: katanomi.hub
+        params:
+          - name: kind
+            value: task
+          - name: name
+            value: trivy-image-scan
+      workspaces:
+        - name: source
+          workspace: source
+        - name: cache
+      runAfter:
+        - build-mtchannel-broker
+        - build-mtping
+        - build-webhook
+      when: []
+      params:
+        - name: targets
+          value:
+            - $(tasks.build-mtchannel-broker.results.ociContainerImageBuild-url)
+            - $(tasks.build-mtping.results.ociContainerImageBuild-url)
+            - $(tasks.build-webhook.results.ociContainerImageBuild-url)
+    - name: image-scan4
+      timeout: 30m
+      retries: 0
+      taskRef:
+        resolver: katanomi.hub
+        params:
+          - name: kind
+            value: task
+          - name: name
+            value: trivy-image-scan
+      workspaces:
+        - name: source
+          workspace: source
+        - name: cache
+      runAfter:
+        - build-migrate
+      when: []
+      params:
+        - name: targets
+          value:
+            - $(tasks.build-migrate.results.ociContainerImageBuild-url)
+  runTemplate:
+    spec:
+      taskRunSpecs: []
