@@ -33,7 +33,7 @@ spec:
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:latest
+          value: registry.alauda.cn:60080/devops/github/builder-go:latest
     - name: build-broker-filter
       taskRef:
         kind: ClusterTask
@@ -51,7 +51,7 @@ spec:
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:latest
+          value: registry.alauda.cn:60080/devops/github/builder-go:latest
     - name: build-broker-ingress
       taskRef:
         kind: ClusterTask
@@ -69,7 +69,7 @@ spec:
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:latest
+          value: registry.alauda.cn:60080/devops/github/builder-go:latest
     - name: build-cmd-controller
       taskRef:
         kind: ClusterTask
@@ -87,7 +87,7 @@ spec:
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:latest
+          value: registry.alauda.cn:60080/devops/github/builder-go:latest
     - name: build-in-memory-channel-controller
       taskRef:
         kind: ClusterTask
@@ -105,7 +105,7 @@ spec:
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:latest
+          value: registry.alauda.cn:60080/devops/github/builder-go:latest
     - name: build-in-memory-channel-dispatcher
       taskRef:
         kind: ClusterTask
@@ -123,7 +123,7 @@ spec:
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:latest
+          value: registry.alauda.cn:60080/devops/github/builder-go:latest
     - name: build-mtchannel-broker
       taskRef:
         kind: ClusterTask
@@ -143,7 +143,7 @@ spec:
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:latest
+          value: registry.alauda.cn:60080/devops/github/builder-go:latest
     - name: build-mtping
       taskRef:
         kind: ClusterTask
@@ -161,7 +161,7 @@ spec:
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:latest
+          value: registry.alauda.cn:60080/devops/github/builder-go:latest
     - name: build-webhook
       taskRef:
         kind: ClusterTask
@@ -179,7 +179,7 @@ spec:
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:latest
+          value: registry.alauda.cn:60080/devops/github/builder-go:latest
     - name: build-migrate
       taskRef:
         kind: ClusterTask
@@ -199,7 +199,7 @@ spec:
         - name: container-image-tag
           value: v$(tasks.oss-version.results.oss-version)-$(tasks.oss-version.results.commit-short-id)
         - name: tool-image
-          value: registry.alauda.cn:60080/devops/builder-go:latest
+          value: registry.alauda.cn:60080/devops/github/builder-go:latest
     - name: image-scan
       timeout: 30m
       retries: 0
