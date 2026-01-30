@@ -131,7 +131,7 @@ The finished event traces are stored as `$ARTIFACTS/traces/missed-events/finishe
 Traces can be viewed as follows:
 - Start a Zipkin container on localhost:
    ```
-   $ docker run -d -p 9411:9411 ghcr.io/openzipkin/zipkin:2
+   $ registry run -d -p 9411:9411 ghcr.io/openzipkin/zipkin:2
    ```
 - Send traces to the Zipkin endpoint:
    ```

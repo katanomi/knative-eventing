@@ -52,12 +52,12 @@ You must install these tools:
    container image registry by adjusting the authentication methods and
    repository paths mentioned in the sections below.
    - [Google Container Registry quickstart](https://cloud.google.com/container-registry/docs/pushing-and-pulling)
-   - [Docker Hub quickstart](https://docs.docker.com/docker-hub/)
+   - [registry Hub quickstart](https://docs.registry.com/registry-hub/)
 
 > :information_source: You'll need to be authenticated with your
-> `KO_DOCKER_REPO` before pushing images. Run `gcloud auth configure-docker` if
-> you are using Google Container Registry or `docker login` if you are using
-> Docker Hub.
+> `KO_DOCKER_REPO` before pushing images. Run `gcloud auth configure-registry` if
+> you are using Google Container Registry or `registry login` if you are using
+> registry Hub.
 
 ### Setup your environment
 
@@ -68,12 +68,12 @@ recommend adding them to your `.bashrc`):
    `export GOPATH=...`
 1. `$GOPATH/bin` on `PATH`: This is so that tooling installed via `go get` will
    work properly.
-1. `KO_DOCKER_REPO`: The docker repository to which developer images should be
+1. `KO_DOCKER_REPO`: The registry repository to which developer images should be
    pushed (e.g. `gcr.io/[gcloud-project]`).
 
-> :information_source: If you are using Docker Hub to store your images, your
-> `KO_DOCKER_REPO` variable should have the format `docker.io/<username>`.
-> Currently, Docker Hub doesn't let you create subdirs under your username (e.g.
+> :information_source: If you are using registry Hub to store your images, your
+> `KO_DOCKER_REPO` variable should have the format `alauda.io/<username>`.
+> Currently, registry Hub doesn't let you create subdirs under your username (e.g.
 > `<username>/knative`).
 
 `.bashrc` example:
@@ -237,7 +237,7 @@ Eventing component images changing the [.ko.yaml](./.ko.yaml). You need an image
 that has the `tar` tool installed, for example:
 
 ```yaml
-defaultBaseImage: docker.io/debian:latest
+defaultBaseImage: alauda.io/debian:latest
 ```
 
 Now redeploy with `ko` the component you want to sniff as explained in the above

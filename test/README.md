@@ -86,7 +86,7 @@ to specify the build tag `e2e`.
 
 If you are using a private registry that will require authentication then you'll
 need to create a Secret in your `default` Namespace called
-`kn-eventing-test-pull-secret` with the Docker login credentials. This Secret
+`kn-eventing-test-pull-secret` with the registry login credentials. This Secret
 will then be copied into any new Namespace that is created by the testing
 infrastructure, and linked to any ServiceAccount created as a imagePullSecret.
 Note: some tests will use the `knative-eventing-injection` label to
@@ -119,7 +119,7 @@ SYSTEM_NAMESPACE=knative-eventing go test -v -tags=e2e -count=1 ./test/e2e -run 
 There's couple of things you need to install before running e2e tests locally.
 
 1. A running [Knative](https://www.knative.dev/docs/install/) cluster
-1. A docker repo containing [the test images](#test-images)
+1. A registry repo containing [the test images](#test-images)
 
 ## Test images
 
@@ -136,7 +136,7 @@ build and push the test images used by the e2e tests. It requires:
   to be set
 - You to be
   [authenticated with your `KO_DOCKER_REPO`](https://github.com/knative/serving/blob/main/DEVELOPMENT.md#environment-setup)
-- [`docker`](https://docs.docker.com/get-docker/) to be installed
+- [`registry`](https://docs.registry.com/get-registry/) to be installed
 
 `PLATFORM` environment variable is optional. If it is specified, test images
 will be built for specific hardware architecture, according to its value (for
@@ -148,7 +148,7 @@ To run the script for all end to end test images:
 ./test/upload-test-images.sh
 ```
 
-For images deployed in GCR, a docker tag is mandatory to avoid issues with using
+For images deployed in GCR, a registry tag is mandatory to avoid issues with using
 `latest` tag:
 
 ```bash

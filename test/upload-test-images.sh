@@ -24,10 +24,10 @@ function upload_test_images() {
   # to pickup .ko.yaml
   cd "$( dirname "$0")/.."
   local image_dir="test/test_images"
-  local docker_tag=$1
+  local registry_tag=$1
   local tag_option=""
-  if [ -n "${docker_tag}" ]; then
-    tag_option="--tags $docker_tag,latest"
+  if [ -n "${registry_tag}" ]; then
+    tag_option="--tags $registry_tag,latest"
   fi
 
   # If PLATFORM environment variable is specified, then images will be built for
